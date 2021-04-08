@@ -2,7 +2,7 @@ package ProgramacionIII.tp1;
 
 public class Node {
 
-	private Object info;
+	private Integer info;
 	private Node next;
 
 	public Node() {
@@ -10,7 +10,7 @@ public class Node {
 		this.next = null;
 	}
 	
-	public Node(Object o, Node n) {
+	public Node(Integer o, Node n) {
 		this.setInfo(o);
 		this.setNext(n);
 	}
@@ -23,11 +23,11 @@ public class Node {
 		this.next = next;
 	}
 
-	public Object getInfo() {
+	public Integer getInfo() {
 		return info;
 	}
 
-	public void setInfo(Object info) {
+	public void setInfo(Integer info) {
 		this.info = info;
 	}
 

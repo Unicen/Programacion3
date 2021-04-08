@@ -2,19 +2,19 @@ package ProgramacionIII.tp1;
 
 public class MySimpleLinkedList {
 	
-	protected Node first;
+	private Node first;
 	
 	public MySimpleLinkedList() {
 		this.first = null;
 	}
 	
-	public void insertFront(Object o) {
+	public void insertFront(Integer o) {
 		Node tmp = new Node(o,null);
 		tmp.setNext(this.first);
 		this.first = tmp;
 	}
 	
-	public Object extractFront() {
+	public Integer extractFront() {		
 		// TODO
 		return null;
 	}
@@ -23,15 +23,19 @@ public class MySimpleLinkedList {
 		// TODO
 		return false;
 	}
-
+	
+	public Integer get(int index) {
+		// TODO
+		return null;
+	}
+	
 	public int size() {
 		// TODO
 		return 0;
 	}
 	
-	public Object get(int index) {
+	public void print(int n) {
 		// TODO
-		return null;
 	}
-
+	
 }

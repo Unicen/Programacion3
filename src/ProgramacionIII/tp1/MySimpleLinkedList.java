@@ -1,6 +1,6 @@
 package ProgramacionIII.tp1;
 
-public class MySimpleLinkedList {
+public class MySimpleLinkedList implements Iterable<Integer> {
 	
 	private Node first;
 	
@@ -36,6 +36,11 @@ public class MySimpleLinkedList {
 	
 	public void print(int n) {
 		// TODO
+	}
+
+	@Override
+	public MyIterator iterator() {
+		return new MyIterator(this.first);
 	}
 	
 }

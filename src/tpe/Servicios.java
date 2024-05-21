@@ -1,6 +1,7 @@
 package ProgramacionIII.tpe;
 
 import ProgramacionIII.tpe.utils.CSVReader;
+import tpe.Tarea;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,8 +15,8 @@ import java.util.List;
  */
 public class Servicios {
 
-	HashMap<Integer,Tarea> tareasCriticas = new HashMap<Integer,Tarea>();
-	HashMap<Integer,Tarea> tareasNoCriticas = new HashMap<Integer,Tarea>();
+	HashMap<String,Tarea> tareasCriticas = new HashMap<>();
+	HashMap<String,Tarea> tareasNoCriticas = new HashMap<>();
 
 	/*
      * Expresar la complejidad temporal del constructor.
@@ -23,10 +24,10 @@ public class Servicios {
 	public Servicios(String pathProcesadores, String pathTareas)
 	{
 		CSVReader reader = new CSVReader();
-		ArrayList<Tarea> tareas = reader.readProcessors(pathProcesadores);
-		ArrayList<Procesador> procesadores = reader.readTasks(pathTareas);
+		ArrayList<Procesador> procesadores = reader.readProcessors(pathProcesadores);
+		ArrayList<Tarea> tareas= reader.readTasks(pathTareas);
 		for (Tarea tarea : tareas) {
-			if(tarea.isCritica()){
+			if(tarea.getEsCritica()){
 				tareasCriticas.put(tarea.getId(),tarea);
 			}else{
 				tareasNoCriticas.put(tarea.getId(),tarea);

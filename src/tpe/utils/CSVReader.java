@@ -1,12 +1,14 @@
 package ProgramacionIII.tpe.utils;
 
 
+import ProgramacionIII.tpe.Procesador;
+import tpe.Tarea;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 
 public class CSVReader {
@@ -49,7 +51,7 @@ public ArrayList<Procesador> readProcessors(String processorPath) {
 			Boolean refrigerado = Boolean.parseBoolean(line[2].trim());
 			Integer anio = Integer.parseInt(line[3].trim());
 			// Aca instanciar lo que necesiten en base a los datos leidos
-			Procesador procesador = new Procesador(id, codigo, refrigerado, anio);
+			Procesador procesador = new Procesador(id, codigo, anio, refrigerado);
 			procesadores.add(procesador);
 		}
 		return procesadores;

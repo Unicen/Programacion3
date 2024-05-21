@@ -4,13 +4,13 @@ import java.util.Objects;
 
 public class Tarea {
 
-    private Integer  id;
-    private Integer nombre;
+    private String  id;
+    private String nombre;
     private Integer tiempoEjecucion;
     private Boolean esCritica;
     private Integer nivelPrioridad;
 
-    public Tarea(Integer id, Integer nombre, Integer tiempoEjecucion, Boolean esCritica, Integer nivelPrioridad) {
+    public Tarea(String id, String nombre, Integer tiempoEjecucion, Boolean esCritica, Integer nivelPrioridad) {
         this.id = id;
         this.nombre = nombre;
         this.tiempoEjecucion = tiempoEjecucion;
@@ -37,19 +37,19 @@ public class Tarea {
         return id.equals(tarea.id);
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public Integer getNombre() {
+    public String getNombre() {
         return nombre;
     }
 
-    public void setNombre(Integer nombre) {
+    public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 

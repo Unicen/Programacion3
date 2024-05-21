@@ -1,6 +1,10 @@
-package tpe;
+package ProgramacionIII.tpe;
 
-import tpe.utils.CSVReader;
+import ProgramacionIII.tpe.utils.CSVReader;
+import tpe.Tarea;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import java.util.List;
 
@@ -11,14 +15,27 @@ import java.util.List;
  */
 public class Servicios {
 
+	HashMap<String,Tarea> tareasCriticas = new HashMap<>();
+	HashMap<String,Tarea> tareasNoCriticas = new HashMap<>();
+
 	/*
      * Expresar la complejidad temporal del constructor.
      */
 	public Servicios(String pathProcesadores, String pathTareas)
 	{
 		CSVReader reader = new CSVReader();
-		reader.readProcessors(pathProcesadores);
-		reader.readTasks(pathTareas);
+		ArrayList<Procesador> procesadores = reader.readProcessors(pathProcesadores);
+		ArrayList<Tarea> tareas= reader.readTasks(pathTareas);
+		for (Tarea tarea : tareas) {
+			if(tarea.getEsCritica()){
+				tareasCriticas.put(tarea.getId(),tarea);
+			}else{
+				tareasNoCriticas.put(tarea.getId(),tarea);
+			}
+		}
+		for (Procesador procesador : procesadores) {
+			// Aca deberia guardar los procesadores en una estructura de datos
+		}
 	}
 	
 	/*

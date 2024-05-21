@@ -1,13 +1,13 @@
-package tpe;
+package ProgramacionIII.tpe;
 
 public class Procesador {
 
-    private Integer  id;
-    private Integer codigoProcesador;
+    private String  id;
+    private String codigoProcesador;
     private Integer anioFuncionamiento;
     private Boolean refrigerado;
 
-    public Procesador(Integer id, Integer codigoProcesador, Integer anioFuncionamiento, Boolean refrigerado) {
+    public Procesador(String id, String codigoProcesador, Integer anioFuncionamiento, Boolean refrigerado) {
         this.id = id;
         this.codigoProcesador = codigoProcesador;
         this.anioFuncionamiento = anioFuncionamiento;
@@ -22,19 +22,19 @@ public class Procesador {
         return id.equals(that.id);
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public Integer getCodigoProcesador() {
+    public String getCodigoProcesador() {
         return codigoProcesador;
     }
 
-    public void setCodigoProcesador(Integer codigoProcesador) {
+    public void setCodigoProcesador(String codigoProcesador) {
         this.codigoProcesador = codigoProcesador;
     }
 

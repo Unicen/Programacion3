@@ -41,16 +41,41 @@ public class Servicios {
 	/*
      * Expresar la complejidad temporal del servicio 1.
      */
-	public Tarea servicio1(String ID) {	}
+	public Tarea servicio1(String ID) {
+		if(tareasCriticas.containsKey(ID)){
+			return tareasCriticas.get(ID);
+		}else{
+			return tareasNoCriticas.get(ID);
+		}
+	}
     
     /*
      * Expresar la complejidad temporal del servicio 2.
      */
-	public List<Tarea> servicio2(boolean esCritica) {}
+	public List<Tarea> servicio2(boolean esCritica) {
+		if(esCritica){
+			return new ArrayList<>(tareasCriticas.values());
+		}else{
+			return new ArrayList<>(tareasNoCriticas.values());
+		}
+	}
 
     /*
      * Expresar la complejidad temporal del servicio 3.
      */
-	public List<Tarea> servicio3(int prioridadInferior, int prioridadSuperior) {}
+	public List<Tarea> servicio3(int prioridadInferior, int prioridadSuperior) {
+		List<Tarea> tareas = new ArrayList<>();
+		for (Tarea tarea : tareasCriticas.values()) {
+			if(tarea.getNivelPrioridad()>=prioridadInferior && tarea.getNivelPrioridad()<=prioridadSuperior){
+				tareas.add(tarea);
+			}
+		}
+		for (Tarea tarea : tareasNoCriticas.values()) {
+			if(tarea.getNivelPrioridad()>=prioridadInferior && tarea.getNivelPrioridad()<=prioridadSuperior){
+				tareas.add(tarea);
+			}
+		}
+		return tareas;
+	}
 
 }

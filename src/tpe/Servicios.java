@@ -2,6 +2,8 @@ package tpe;
 
 import tpe.utils.CSVReader;
 
+import java.util.List;
+
 /**
  * NO modificar la interfaz de esta clase ni sus métodos públicos.
  * Sólo se podrá adaptar el nombre de la clase "Tarea" según sus decisiones

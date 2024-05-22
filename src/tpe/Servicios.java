@@ -1,7 +1,6 @@
-package ProgramacionIII.tpe;
+package tpe;
 
-import ProgramacionIII.tpe.utils.CSVReader;
-import tpe.Tarea;
+import tpe.utils.CSVReader;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -77,5 +76,18 @@ public class Servicios {
 		}
 		return tareas;
 	}
+	public void printTareas(){
 
+		for (Tarea tarea : tareasCriticas.values()) {
+			System.out.println(tarea.toString());
+		}
+		for (Tarea tarea : tareasNoCriticas.values()) {
+			System.out.println(tarea.toString());
+		}
+	}
 }
+/* public void sumarTiempoFinal(Integer tiempoTarea){
+		var tiempoFinalActual = getTiempoFinalEjecucion();
+		setTiempoFinalEjecucion(tiempoFinalActual+tiempoTarea);
+		}
+          this.sumarTiempoFinal(t.getTiempoEjecucion());*/

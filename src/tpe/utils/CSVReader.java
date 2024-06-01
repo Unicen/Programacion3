@@ -1,8 +1,8 @@
-package tpe.utils;
+package ProgramacionIII.tpe.utils;
 
 
-import tpe.Procesador;
-import tpe.Tarea;
+import ProgramacionIII.tpe.Procesador;
+import ProgramacionIII.tpe.Tarea;
 
 import java.io.BufferedReader;
 import java.io.File;

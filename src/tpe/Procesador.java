@@ -1,6 +1,8 @@
-package tpe;
+package ProgramacionIII.tpe;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Procesador {
 
@@ -11,7 +13,16 @@ public class Procesador {
     private Integer tiempoEjecucion;
     private Integer tiempoMaximo;
     private List<Tarea> tareasAsignadas;
+    private static Integer MAXTAREASCRITICAS = 2;
 
+    @Override
+    public String toString() {
+        return "Procesador{" +
+                "id='" + id + '\'' +
+                ", codigoProcesador='" + codigoProcesador + '\'' +
+                ", tareasAsignadas=" + tareasAsignadas +
+                '}';
+    }
 
     public Procesador(String id, String codigoProcesador, Integer anioFuncionamiento, Boolean refrigerado) {
         this.id = id;
@@ -20,11 +31,11 @@ public class Procesador {
         this.refrigerado = refrigerado;
         this.tiempoEjecucion = 0;
         this.tiempoMaximo = -1;
+        this.tareasAsignadas = new ArrayList<>();
     }
 
     public boolean addTarea(Tarea t) {
-        var ultimo = this.tareasAsignadas.size() -1;
-        if((!this.tareasAsignadas.get(ultimo).getEsCritica()) && this.tieneTiempo(t.getTiempoEjecucion())){
+        if( this.hayCupoParaTareaCritica() && this.tieneTiempo(t.getTiempoEjecucion())){
           this.tareasAsignadas.add(t);
           this.tiempoEjecucion += t.getTiempoEjecucion();
           return true;
@@ -34,11 +45,19 @@ public class Procesador {
 
     public boolean tieneTiempo(Integer tiempoTarea){
         if(!this.refrigerado){
-            return  (this.tiempoEjecucion+tiempoTarea < this.getTiempoMaximo());
+            return  (this.tiempoEjecucion + tiempoTarea < this.getTiempoMaximo());
         }else{
             return true;
         }
+    }
 
+    public boolean hayCupoParaTareaCritica(){
+        List<Tarea> cupo = this.tareasAsignadas.stream().filter(tarea -> tarea.getEsCritica()).collect(Collectors.toList());
+        if(cupo.size() < MAXTAREASCRITICAS){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     @Override

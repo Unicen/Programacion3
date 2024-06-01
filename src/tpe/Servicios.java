@@ -1,6 +1,7 @@
-package tpe;
+package ProgramacionIII.tpe;
 
-import tpe.utils.CSVReader;
+
+import ProgramacionIII.tpe.utils.CSVReader;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,6 +17,8 @@ public class Servicios {
 
 	HashMap<String,Tarea> tareasCriticas = new HashMap<>();
 	HashMap<String,Tarea> tareasNoCriticas = new HashMap<>();
+	List<Procesador> procesadores = new ArrayList<>();
+
 
 	/*
      * Expresar la complejidad temporal del constructor.
@@ -32,9 +35,7 @@ public class Servicios {
 				tareasNoCriticas.put(tarea.getId(),tarea);
 			}
 		}
-		for (Procesador procesador : procesadores) {
-			// Aca deberia guardar los procesadores en una estructura de datos
-		}
+		this.procesadores.addAll(procesadores);
 	}
 	
 	/*
@@ -76,8 +77,8 @@ public class Servicios {
 		}
 		return tareas;
 	}
-	public void printTareas(){
 
+	public void printTareas(){
 		for (Tarea tarea : tareasCriticas.values()) {
 			System.out.println(tarea.toString());
 		}
@@ -85,9 +86,17 @@ public class Servicios {
 			System.out.println(tarea.toString());
 		}
 	}
+
+	public void asginarTareasConBacktracking(){
+		List<Tarea> tareasAsignar = new ArrayList<Tarea>();
+		tareasAsignar.addAll(this.tareasCriticas.values());
+		tareasAsignar.addAll(this.tareasNoCriticas.values());
+		Backtracking backtracking = new Backtracking(tareasAsignar,this.procesadores);
+		backtracking.iniciarBacktracking();
+	}
+
+
+	public void printProcesadores(){
+		System.out.println(this.procesadores.toString());
+	}
 }
-/* public void sumarTiempoFinal(Integer tiempoTarea){
-		var tiempoFinalActual = getTiempoFinalEjecucion();
-		setTiempoFinalEjecucion(tiempoFinalActual+tiempoTarea);
-		}
-          this.sumarTiempoFinal(t.getTiempoEjecucion());*/

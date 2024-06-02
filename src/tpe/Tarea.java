@@ -1,7 +1,5 @@
 package ProgramacionIII.tpe;
 
-import java.util.Objects;
-
 public class Tarea {
 
     private String  id;

@@ -4,9 +4,11 @@ package ProgramacionIII.tpe;
 import ProgramacionIII.tpe.utils.CSVReader;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * NO modificar la interfaz de esta clase ni sus métodos públicos.
@@ -87,14 +89,30 @@ public class Servicios {
 		}
 	}
 
-	public void asginarTareasConBacktracking(){
+	public void asginarTareasConBacktracking(Integer maxTiempoNoRefrigerados){
+		this.procesadores.stream().filter(p -> p.getRefrigerado() == false).collect(Collectors.toList()).forEach(p -> p.setTiempoMaximo(maxTiempoNoRefrigerados));
 		List<Tarea> tareasAsignar = new ArrayList<Tarea>();
 		tareasAsignar.addAll(this.tareasCriticas.values());
 		tareasAsignar.addAll(this.tareasNoCriticas.values());
+		tareasAsignar.sort(comparadorPrioridad);
 		Backtracking backtracking = new Backtracking(tareasAsignar,this.procesadores);
 		backtracking.iniciarBacktracking();
+		System.out.println(tareasAsignar.toString());
 	}
 
+	Comparator<Tarea> comparadorPrioridad = new Comparator<Tarea>() {
+		@Override
+		public int compare(Tarea tarea1, Tarea tarea2) {
+			// Si las tareas son críticas, poner la crítica primero
+			if (tarea1.getEsCritica() && !tarea2.getEsCritica()) {
+				return -1;
+			} else if (!tarea1.getEsCritica() && tarea2.getEsCritica()) {
+				return 1;
+			}
+			// Si ambas tareas son críticas o no críticas, ordenar por prioridad de menor a mayor
+			return Integer.compare(tarea1.getNivelPrioridad(),tarea2.getNivelPrioridad());
+		}
+	};
 
 	public void printProcesadores(){
 		System.out.println(this.procesadores.toString());

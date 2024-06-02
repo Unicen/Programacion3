@@ -9,77 +9,86 @@ public class Backtracking {
     private List<Tarea> tareas;
     private List<Procesador> procesadores;
     private Integer estadosGenerados;
+    private List<Procesador> procesadoresListos;
+
 
     public Backtracking(List<Tarea> tareas, List<Procesador> procesadores) {
         this.resulTiempoFinalEjecucion = 0;
         this.estadosGenerados = 0;
         this.tareas = tareas;
         this.procesadores = procesadores;
+        this.procesadoresListos = new ArrayList<>();
     }
-    public void printToResult(){
+
+    public void printToResult() {
         System.out.println("Mejor tiempo:" + this.resulTiempoFinalEjecucion);
-        System.out.println("Procesadores y tareas asignadas:" + this.procesadores.toString());
+        System.out.println("Procesadores y tareas asignadas:" + this.procesadoresListos.toString());
+        System.out.println("Cantidad estados:" + this.estadosGenerados);
     }
 
     public void iniciarBacktracking() {
+        this.resulTiempoFinalEjecucion = Integer.MAX_VALUE;
         Integer posibleMejorTiempo = 0;
-        List<Tarea> tareasParaAsignar = new ArrayList<>(this.tareas);
-        this.ejecutarBacktracking(posibleMejorTiempo, tareasParaAsignar, this.procesadores);
+        this.ejecutarBacktracking(posibleMejorTiempo, new ArrayList<>(), this.procesadores);
         this.printToResult();
     }
 
-    private void ejecutarBacktracking(Integer mejorTiempoActual, List<Tarea> tareasParaAsignar, List<Procesador> procesadores) {
-        // Verificar si se ha alcanzado una solución válida // menor tiempo y todas las tareas asignadas
-       this.estadosGenerados ++;
-        if(tareasParaAsignar.size() == 0){
-            this.resulTiempoFinalEjecucion = Math.min(this.resulTiempoFinalEjecucion, mejorTiempoActual);
-        }else{
-            // Si no se ha alcanzado una solución válida, continuar con la búsqueda
+    private void ejecutarBacktracking(Integer mejorTiempoActual, List<Tarea> tareasAsignadas, List<Procesador> procesadores) {
+        this.estadosGenerados++;
 
-            for (Procesador pActual: procesadores){
-                for (Tarea tActual: tareasParaAsignar){
-                    if(pActual.addTarea(tActual)){
-                        tareasParaAsignar.remove(tActual);
-                        this.sumarTiempoFinal(tActual.getTiempoEjecucion());
-                    }else{
-                        this.ejecutarBacktracking(mejorTiempoActual,tareasParaAsignar,procesadores);
-                    }
-                }
+        if (tareasAsignadas.size() == this.tareas.size() && mejorTiempoActual < this.resulTiempoFinalEjecucion) {
+            this.resulTiempoFinalEjecucion = mejorTiempoActual;
+            for (Procesador procesador : procesadores) {
+                this.procesadoresListos.add(new Procesador(procesador.getId(), procesador.getCodigoProcesador(), procesador.getAnioFuncionamiento(), procesador.getRefrigerado(), procesador.getTiempoEjecucion(), procesador.getTiempoMaximo(), procesador.getTareasAsignadas()));
             }
-          /*  while (procesadores.iterator().hasNext()){
-                Procesador pActual = procesadores.next();
-                if(!this.procesadoresYaRecorridos.contains(pActual)){
-                    this.procesadoresYaRecorridos.add(pActual);
-                    if(tareasParaAsignar.hasNext()){
-                        Tarea tActual = tareasParaAsignar.next();
-                        if(pActual.addTarea(tActual)){
-                            tareasParaAsignar.remove();
-                            this.sumarTiempoFinal(tActual.getTiempoEjecucion());
-                        }else{
-                            this.ejecutarBacktracking(posibleMejorTiempo,tareasParaAsignar,procesadores);
+        } else {
+            if (mejorTiempoActual >= this.resulTiempoFinalEjecucion) {
+                return;
+            }
+            for (Tarea tActual : this.tareas) {
+                for (Procesador pActual : procesadores) {
+                    if (!tareasAsignadas.contains(tActual)) {
+                        if (pActual.puedeAgregarTarea(tActual)) {
+                            pActual.addTarea(tActual);
+                            tareasAsignadas.add(tActual);
+                            mejorTiempoActual += tActual.getTiempoEjecucion();
+                            ejecutarBacktracking(mejorTiempoActual, tareasAsignadas, procesadores);
+                            mejorTiempoActual -= tActual.getTiempoEjecucion();
+                            tareasAsignadas.remove(tActual);
+                            pActual.removeTarea(tActual);
                         }
                     }
                 }
-            }*/
+            }
         }
-
-
-
-        // Iterar sobre todas las posibles opciones
-        //   Realizar una acción
-        //   Llamar recursivamente a backtracking con los nuevos parámetros
-        //   Deshacer la acción (si es necesario)
-
-
-
-
-
     }
-    //  this.sumarTiempoFinal(t.getTiempoEjecucion());
+   /* private void ejecutarBacktracking(Integer mejorTiempoActual, List<Tarea> tareas, List<Procesador> procesadores) {
+        this.estadosGenerados++;
+        System.out.println(this.resulTiempoFinalEjecucion);
+        List<Tarea> tareasParaAsignar = new ArrayList<>(tareas);
+        Iterator<Tarea> tareasIterador = tareasParaAsignar.iterator();
+        if (this.tareas.size()>0) {
+            if(this.resulTiempoFinalEjecucion > mejorTiempoActual){
+                this.resulTiempoFinalEjecucion = mejorTiempoActual;
+            }
 
-     public void sumarTiempoFinal(Integer tiempoTarea) {
-         this.resulTiempoFinalEjecucion += tiempoTarea;
-     }
+        } else {
+            while (tareasIterador.hasNext()) {
+                Tarea tActual = tareasIterador.next();
+                for (Procesador pActual : procesadores) {
+                    if (!tActual.isEstaAsignada() && pActual.addTarea(tActual)) {
+                        tActual.setEstaAsignada(true);
+                        this.sumarTiempoFinal(tActual.getTiempoEjecucion());
+                        this.ejecutarBacktracking(mejorTiempoActual, tareasParaAsignar, procesadores);
+                        this.sumarTiempoFinal(-tActual.getTiempoEjecucion());
+                        tActual.setEstaAsignada(false);
+
+                    }
+                }
+            }
+
+        }
+    }*/
 
 }
 

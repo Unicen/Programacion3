@@ -8,7 +8,7 @@ public class Main {
 		Servicios servicios = new Servicios("src/tpe/datasets/Procesadores.csv", "src/tpe/datasets/Tareas.csv");
 	servicios.printTareas();
 	servicios.printProcesadores();
-	servicios.asginarTareasConBacktracking();
+	servicios.asginarTareasConBacktracking(50);
 
 	/*Tarea tareaId =  servicios.servicio1("T3");
 	System.out.println("Tarea por id: " + tareaId.toString());

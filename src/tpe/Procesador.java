@@ -20,7 +20,8 @@ public class Procesador {
         return "Procesador{" +
                 "id='" + id + '\'' +
                 ", codigoProcesador='" + codigoProcesador + '\'' +
-                ", tareasAsignadas=" + tareasAsignadas +
+                ", tiempo ejecucion='" + tiempoEjecucion + '\'' +
+                ", tareasAsignadas=" + tareasAsignadas.toString() +
                 '}';
     }
 
@@ -34,21 +35,39 @@ public class Procesador {
         this.tareasAsignadas = new ArrayList<>();
     }
 
-    public boolean addTarea(Tarea t) {
-        if( this.hayCupoParaTareaCritica() && this.tieneTiempo(t.getTiempoEjecucion())){
-          this.tareasAsignadas.add(t);
-          this.tiempoEjecucion += t.getTiempoEjecucion();
+    public Procesador(String id, String codigoProcesador, Integer anioFuncionamiento, Boolean refrigerado, Integer tiempoEjecucion, Integer tiempoMaximo, List<Tarea> tareasAsignadas) {
+        this.id = id;
+        this.codigoProcesador = codigoProcesador;
+        this.anioFuncionamiento = anioFuncionamiento;
+        this.refrigerado = refrigerado;
+        this.tiempoEjecucion = tiempoEjecucion;
+        this.tiempoMaximo = tiempoMaximo;
+        this.tareasAsignadas = new ArrayList<>(tareasAsignadas);
+    }
+
+    public boolean puedeAgregarTarea(Tarea t) {
+        if( (!t.getEsCritica() || this.hayCupoParaTareaCritica()) && this.tieneTiempo(t.getTiempoEjecucion() )){
           return true;
         }
         return false;
     }
 
+    public void addTarea(Tarea t){
+        this.tareasAsignadas.add(t);
+        this.setTiempoEjecucion(t.getTiempoEjecucion());
+    }
+
     public boolean tieneTiempo(Integer tiempoTarea){
         if(!this.refrigerado){
-            return  (this.tiempoEjecucion + tiempoTarea < this.getTiempoMaximo());
+            return  (this.tiempoEjecucion + tiempoTarea <= this.getTiempoMaximo());
         }else{
             return true;
         }
+    }
+
+    public void removeTarea (Tarea tarea){
+     // this.setTiempoEjecucion(-tarea.getTiempoEjecucion());// esta bien o mal ?
+        this.tareasAsignadas.remove(tarea);
     }
 
     public boolean hayCupoParaTareaCritica(){
@@ -105,7 +124,7 @@ public class Procesador {
     }
 
     public void setTiempoEjecucion(Integer tiempoEjecucion) {
-        this.tiempoEjecucion = tiempoEjecucion;
+        this.tiempoEjecucion += tiempoEjecucion;
     }
 
     public List<Tarea> getTareasAsignadas() {

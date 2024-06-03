@@ -1,6 +1,5 @@
 package ProgramacionIII.tpe;
 
-
 import ProgramacionIII.tpe.utils.CSVReader;
 
 import java.util.ArrayList;
@@ -90,14 +89,14 @@ public class Servicios {
 	}
 
 	public void asginarTareasConBacktracking(Integer maxTiempoNoRefrigerados){
-		this.procesadores.stream().filter(p -> p.getRefrigerado() == false).collect(Collectors.toList()).forEach(p -> p.setTiempoMaximo(maxTiempoNoRefrigerados));
-		List<Tarea> tareasAsignar = new ArrayList<Tarea>();
+		this.procesadores.stream().filter(p -> !p.getRefrigerado()).collect(Collectors.toList()).forEach(p -> p.setTiempoMaximo(maxTiempoNoRefrigerados));
+		List<Tarea> tareasAsignar = new ArrayList<>();
 		tareasAsignar.addAll(this.tareasCriticas.values());
 		tareasAsignar.addAll(this.tareasNoCriticas.values());
 		tareasAsignar.sort(comparadorPrioridad);
 		Backtracking backtracking = new Backtracking(tareasAsignar,this.procesadores);
 		backtracking.iniciarBacktracking();
-		System.out.println(tareasAsignar.toString());
+		System.out.println(tareasAsignar);
 	}
 
 	Comparator<Tarea> comparadorPrioridad = new Comparator<Tarea>() {

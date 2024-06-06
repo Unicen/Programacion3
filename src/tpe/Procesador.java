@@ -22,7 +22,7 @@ public class Procesador {
                 ", codigoProcesador='" + codigoProcesador + '\'' +
                 ", tiempo ejecucion='" + tiempoEjecucion + '\'' +
                 ", tareasAsignadas=" + tareasAsignadas.toString() +
-                '}';
+                "}\n";
     }
 
     public Procesador(String id, String codigoProcesador, Integer anioFuncionamiento, Boolean refrigerado) {

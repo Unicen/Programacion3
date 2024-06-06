@@ -52,7 +52,9 @@ public class Backtracking {
                             pActual.addTarea(tActual);
                             tareasAsignadas.add(tActual);
                             mejorTiempoActual += tActual.getTiempoEjecucion();
-                            ejecutarBacktracking(mejorTiempoActual, tareasAsignadas, procesadores);
+                            if(mejorTiempoActual < this.resulTiempoFinalEjecucion){
+                                ejecutarBacktracking(mejorTiempoActual, tareasAsignadas, procesadores);
+                            }
                             mejorTiempoActual -= tActual.getTiempoEjecucion();
                             tareasAsignadas.remove(tActual);
                             pActual.removeTarea(tActual);
@@ -62,33 +64,6 @@ public class Backtracking {
             }
         }
     }
-   /* private void ejecutarBacktracking(Integer mejorTiempoActual, List<Tarea> tareas, List<Procesador> procesadores) {
-        this.estadosGenerados++;
-        System.out.println(this.resulTiempoFinalEjecucion);
-        List<Tarea> tareasParaAsignar = new ArrayList<>(tareas);
-        Iterator<Tarea> tareasIterador = tareasParaAsignar.iterator();
-        if (this.tareas.size()>0) {
-            if(this.resulTiempoFinalEjecucion > mejorTiempoActual){
-                this.resulTiempoFinalEjecucion = mejorTiempoActual;
-            }
-
-        } else {
-            while (tareasIterador.hasNext()) {
-                Tarea tActual = tareasIterador.next();
-                for (Procesador pActual : procesadores) {
-                    if (!tActual.isEstaAsignada() && pActual.addTarea(tActual)) {
-                        tActual.setEstaAsignada(true);
-                        this.sumarTiempoFinal(tActual.getTiempoEjecucion());
-                        this.ejecutarBacktracking(mejorTiempoActual, tareasParaAsignar, procesadores);
-                        this.sumarTiempoFinal(-tActual.getTiempoEjecucion());
-                        tActual.setEstaAsignada(false);
-
-                    }
-                }
-            }
-
-        }
-    }*/
 
 }
 

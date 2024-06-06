@@ -24,7 +24,7 @@ public class Tarea {
                 ", tiempoEjecucion=" + tiempoEjecucion +
                 ", esCritica=" + esCritica +
                 ", nivelPrioridad=" + nivelPrioridad +
-                '}';
+                "}\n";
     }
 
     @Override

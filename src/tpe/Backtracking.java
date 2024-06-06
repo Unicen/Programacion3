@@ -15,8 +15,8 @@ public class Backtracking {
     public Backtracking(List<Tarea> tareas, List<Procesador> procesadores) {
         this.resulTiempoFinalEjecucion = 0;
         this.estadosGenerados = 0;
-        this.tareas = tareas;
-        this.procesadores = procesadores;
+        this.tareas = new ArrayList<>(tareas);
+        this.procesadores = new ArrayList<>(procesadores);
         this.procesadoresListos = new ArrayList<>();
     }
 

@@ -19,9 +19,10 @@ public class Procesador {
     public String toString() {
         return "Procesador{" +
                 "id='" + id + '\'' +
+                ", esta refrigerado='" + refrigerado + '\'' +
                 ", codigoProcesador='" + codigoProcesador + '\'' +
                 ", tiempo ejecucion='" + tiempoEjecucion + '\'' +
-                ", tareasAsignadas=" + tareasAsignadas.toString() +
+                ", tareasAsignadas=\n" + tareasAsignadas.toString() +
                 "}\n";
     }
 
@@ -54,7 +55,7 @@ public class Procesador {
 
     public void addTarea(Tarea t){
         this.tareasAsignadas.add(t);
-        this.setTiempoEjecucion(t.getTiempoEjecucion());
+        this.tiempoEjecucion += t.getTiempoEjecucion();
     }
 
     public boolean tieneTiempo(Integer tiempoTarea){
@@ -66,7 +67,6 @@ public class Procesador {
     }
 
     public void removeTarea (Tarea tarea){
-     // this.setTiempoEjecucion(-tarea.getTiempoEjecucion());// esta bien o mal ?
         this.tareasAsignadas.remove(tarea);
     }
 
@@ -77,6 +77,11 @@ public class Procesador {
         }else{
             return false;
         }
+    }
+
+    public void reiniciar(){
+        this.setTiempoEjecucion(0);
+        this.tareasAsignadas = new ArrayList<>();
     }
 
     @Override
@@ -124,7 +129,7 @@ public class Procesador {
     }
 
     public void setTiempoEjecucion(Integer tiempoEjecucion) {
-        this.tiempoEjecucion += tiempoEjecucion;
+        this.tiempoEjecucion = tiempoEjecucion;
     }
 
     public List<Tarea> getTareasAsignadas() {

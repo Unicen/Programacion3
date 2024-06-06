@@ -15,11 +15,11 @@ import java.util.stream.Collectors;
  * de implementación.
  */
 public class Servicios {
-
 	HashMap<String,Tarea> tareasCriticas = new HashMap<>();
 	HashMap<String,Tarea> tareasNoCriticas = new HashMap<>();
-	List<Procesador> procesadores = new ArrayList<>();
 
+	List<Procesador> procesadores = new ArrayList<>();
+	List<Tarea> tareasAsignar = new ArrayList<>();
 
 	/*
      * Expresar la complejidad temporal del constructor.
@@ -28,8 +28,8 @@ public class Servicios {
 	{
 		CSVReader reader = new CSVReader();
 		ArrayList<Procesador> procesadores = reader.readProcessors(pathProcesadores);
-		ArrayList<Tarea> tareas= reader.readTasks(pathTareas);
-		for (Tarea tarea : tareas) {
+		this.tareasAsignar = reader.readTasks(pathTareas);
+		for (Tarea tarea : this.tareasAsignar) {
 			if(tarea.getEsCritica()){
 				tareasCriticas.put(tarea.getId(),tarea);
 			}else{
@@ -90,14 +90,30 @@ public class Servicios {
 
 	public void asginarTareasConBacktracking(Integer maxTiempoNoRefrigerados){
 		this.procesadores.stream().filter(p -> !p.getRefrigerado()).collect(Collectors.toList()).forEach(p -> p.setTiempoMaximo(maxTiempoNoRefrigerados));
-		List<Tarea> tareasAsignar = new ArrayList<>();
-		tareasAsignar.addAll(this.tareasCriticas.values());
-		tareasAsignar.addAll(this.tareasNoCriticas.values());
-		tareasAsignar.sort(comparadorPrioridad);
 		Backtracking backtracking = new Backtracking(tareasAsignar,this.procesadores);
 		backtracking.iniciarBacktracking();
-		System.out.println(tareasAsignar);
 	}
+
+	public void printProcesadores(){
+		System.out.println(this.procesadores.toString());
+	}
+
+	public void reiniciarProcesadores(){
+		for (Procesador p: this.procesadores) {
+			p.reiniciar();
+		}
+	}
+
+
+
+	public Solucion asignarTareasConGreedy(Integer maxTiempoNoRefrigerados){
+		this.procesadores.stream().filter(p -> !p.getRefrigerado()).collect(Collectors.toList()).forEach(p -> p.setTiempoMaximo(maxTiempoNoRefrigerados));
+		tareasAsignar.sort(comparadorPrioridad);
+		Greedy greedy = new Greedy(tareasAsignar,procesadores);
+		return  greedy.ejecutarGreedy();
+
+	}
+
 
 	Comparator<Tarea> comparadorPrioridad = new Comparator<Tarea>() {
 		@Override
@@ -113,7 +129,5 @@ public class Servicios {
 		}
 	};
 
-	public void printProcesadores(){
-		System.out.println(this.procesadores.toString());
-	}
+
 }
